@@ -26,7 +26,9 @@
 
 class DJPEG2KCodecParameter;
 class DJPEG2KLosslessEncoder;
+class DJPEG2KLosslessEncoderPart2;
 class DJPEG2KNearLosslessEncoder;
+class DJPEG2KNearLosslessEncoderPart2;
 
 /** singleton class that registers encoders for all supported JPEG 2000 processes.
  */
@@ -81,8 +83,14 @@ private:
   /// pointer to encoder for lossless JPEG 2000
   static DJPEG2KLosslessEncoder  *losslessencoder_;
 
+  /// pointer to encoder for lossless JPEG 2000 process 2 (RCT)
+  static DJPEG2KLosslessEncoderPart2  *losslessencoder2_;
+
   /// pointer to encoder for lossy JPEG 2000
   static DJPEG2KNearLosslessEncoder *nearlosslessencoder_;
+
+  /// pointer to encoder for lossy JPEG 2000 process 2 (RCT)
+  static DJPEG2KNearLosslessEncoderPart2 *nearlosslessencoder2_;
 
 };
 
