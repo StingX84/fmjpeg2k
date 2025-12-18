@@ -28,7 +28,7 @@ class FMJPEG2K_EXPORT DJPEG2KCodecParameter: public DcmCodecParameter
 {
 public:
 
-  
+
   /** constructor, for use with encoders.
    *  @param jp2k_optionsEnabled       enable/disable use of all JPEG-2000 parameters
    *  @param jp2k_cblkwidth            JPEG-2000 parameter "cblkwidth"
@@ -44,7 +44,7 @@ public:
    DJPEG2KCodecParameter(
      OFBool jp2k_optionsEnabled,
      Uint16 jp2k_cblkwidth = 64,
-     Uint16 jp2k_cblkheight = 64,     
+     Uint16 jp2k_cblkheight = 64,
      OFBool preferCookedEncoding = OFTrue,
      Uint32 fragmentSize = 0,
      OFBool createOffsetTable = OFTrue,
@@ -144,7 +144,7 @@ public:
   {
     return jp2k_cblkheight_;
   }
-   
+
   /** returns true if JPEG-2000 parameters are enabled, false otherwise
    *  @return true if JPEG-2000 parameters are enabled, false otherwise
    */
@@ -159,7 +159,7 @@ public:
   OFBool ignoreOffsetTable() const
   {
     return ignoreOffsetTable_;
-  } 
+  }
 
 private:
 
@@ -177,7 +177,7 @@ private:
 
   /// JPEG-2000 parameter "cblockh_init"
   Uint16 jp2k_cblkheight_;
-    
+
   /// maximum fragment size (in kbytes) for compression, 0 for unlimited.
   Uint32 fragmentSize_;
 

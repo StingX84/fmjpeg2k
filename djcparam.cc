@@ -19,7 +19,7 @@
  *
  *  Author:  Ing-Long Eric Kuo
  *
- *  Purpose: codec parameter class for JPEG-LS codecs
+ *  Purpose: codec parameter class for JPEG-2000 codecs
  *
  */
 
@@ -28,9 +28,9 @@
 #include "dcmtk/ofstd/ofstd.h"
 
 DJPEG2KCodecParameter::DJPEG2KCodecParameter(
-     OFBool jp2k_optionsEnabled,     
+     OFBool jp2k_optionsEnabled,
      Uint16 jp2k_cblkwidth,
-	 Uint16 jp2k_cblkheight,     
+     Uint16 jp2k_cblkheight,
      OFBool preferCookedEncoding,
      Uint32 fragmentSize,
      OFBool createOffsetTable,

@@ -15,7 +15,7 @@
  *
  *  Author:  Martin Willkomm, Uli Schlachter
  *
- *  Purpose: Compress DICOM file with JPEG-LS transfer syntax
+ *  Purpose: Compress DICOM file with JPEG-2000 transfer syntax
  *
  */
 
@@ -72,19 +72,19 @@ int main(int argc, char *argv[])
   E_FileReadMode opt_readMode = ERM_autoDetect;
   E_TransferSyntax opt_ixfer = EXS_Unknown;
 
-  // JPEG-LS encoding options
+  // JPEG-2000 encoding options
   E_TransferSyntax opt_oxfer = EXS_JPEG2000LosslessOnly;
   OFBool opt_useLosslessProcess = OFTrue;
 
   OFCmdUnsignedInt opt_cblkwidth = 64;
-  OFCmdUnsignedInt opt_cblkheight = 64;  
+  OFCmdUnsignedInt opt_cblkheight = 64;
 
   OFBool opt_use_custom_options = OFFalse;
 
-  // JPEG-LS options
+  // JPEG-2000 options
   OFCmdUnsignedInt opt_nearlossless_psnr = 0;
   OFBool opt_prefer_cooked = OFFalse;
-  
+
   // encapsulated pixel data encoding options
   OFCmdUnsignedInt opt_fragmentSize = 0; // 0=unlimited
   OFBool           opt_createOffsetTable = OFTrue;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 LICENSE_FILE_DECLARATIONS
 #endif
 
-  OFConsoleApplication app(OFFIS_CONSOLE_APPLICATION, "Encode DICOM file to JPEG-LS transfer syntax", rcsid);
+  OFConsoleApplication app(OFFIS_CONSOLE_APPLICATION, "Encode DICOM file to JPEG-2000 transfer syntax", rcsid);
   OFCommandLine cmd;
   cmd.setOptionColumns(LONGCOL, SHORTCOL);
   cmd.setParamColumn(LONGCOL + SHORTCOL + 4);
@@ -141,7 +141,7 @@ LICENSE_FILE_DECLARE_COMMAND_LINE_OPTIONS
       cmd.addOption("--prefer-cooked",          "+pc",    "prefer cooked encoder mode ");
 
     cmd.addSubGroup("JPEG-2000 compression:");
-	  cmd.addOption("--PSNR",                   "+ps", 1, "[s]ize: integer (default: 0 (automatic))",
+    cmd.addOption("--PSNR",                   "+ps", 1, "[s]ize: integer (default: 0 (automatic))",
                                                           "set JPEG-2000 encoding parameter psnr");
       cmd.addOption("--cblkwidth",              "+cw", 1, "[s]ize: integer (default: 64)",
                                                           "set JPEG-2000 encoding parameter code block size");
@@ -239,8 +239,8 @@ LICENSE_FILE_EVALUATE_COMMAND_LINE_OPTIONS
       }
       cmd.endOptionBlock();
 
-      // JPEG-LS encoding options
-      // JPEG-LS process options
+      // JPEG-2000 encoding options
+      // JPEG-2000 process options
       cmd.beginOptionBlock();
       if (cmd.findOption("--encode-lossless"))
       {
@@ -285,7 +285,7 @@ LICENSE_FILE_EVALUATE_COMMAND_LINE_OPTIONS
       {
         app.checkValue(cmd.getValueAndCheckMinMax(opt_cblkheight, OFstatic_cast(OFCmdUnsignedInt, 4), 1024));
         opt_use_custom_options = OFTrue;
-      }      
+      }
       cmd.endOptionBlock();
 
       // encapsulated pixel data encoding options

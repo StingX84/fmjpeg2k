@@ -15,7 +15,7 @@
  *
  *  Author:  Martin Willkomm
  *
- *  Purpose: Decompress DICOM file with JPEG-LS transfer syntax
+ *  Purpose: Decompress DICOM file with JPEG-2000 transfer syntax
  *
  */
 
@@ -36,7 +36,7 @@
 #include "dcmtk/dcmdata/dcuid.h"      /* for dcmtk version name */
 #include "dcmtk/dcmimage/diregist.h"  /* include to support color images */
 #include "fmjpeg2k/djlsutil.h"   /* for dcmjpgls typedefs */
-#include "fmjpeg2k/djdecode.h"   /* for JPEG-LS decoder */
+#include "fmjpeg2k/djdecode.h"   /* for JPEG-2000 decoder */
 
 #ifdef USE_LICENSE_FILE
 #include "oflice.h"
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 LICENSE_FILE_DECLARATIONS
 #endif
 
-  OFConsoleApplication app(OFFIS_CONSOLE_APPLICATION, "Decode JPEG-LS compressed DICOM file", rcsid);
+  OFConsoleApplication app(OFFIS_CONSOLE_APPLICATION, "Decode JPEG-2000 compressed DICOM file", rcsid);
   OFCommandLine cmd;
   cmd.setOptionColumns(LONGCOL, SHORTCOL);
   cmd.setParamColumn(LONGCOL + SHORTCOL + 4);
@@ -205,7 +205,7 @@ LICENSE_FILE_EVALUATE_COMMAND_LINE_OPTIONS
         opt_readMode = ERM_dataset;
 
         // This transfer syntax works as long as the content of encapsulated pixel
-        // sequences is some kind of JPEG-LS bitstream. hmm?
+        // sequences is some kind of JPEG-2000 bitstream. hmm?
         opt_ixfer = EXS_JPEGLSLossless;
       }
       cmd.endOptionBlock();

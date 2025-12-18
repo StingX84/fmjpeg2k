@@ -34,7 +34,7 @@ class FMJPEG2K_EXPORT FMJPEG2KEncoderRegistration
 {
 public:
 
-  /** registers encoders for all supported JPEG 2000 processes. 
+  /** registers encoders for all supported JPEG 2000 processes.
    *  If already registered, call is ignored unless cleanup() has
    *  been performed before.
    *  @param jp2k_optionsEnabled       enable/disable use of all five JPEG 2000 parameters
@@ -45,7 +45,7 @@ public:
    *  @param createOffsetTable         create offset table during image compression
    *  @param uidCreation               mode for SOP Instance UID creation
    *  @param convertToSC               flag indicating whether image should be converted to Secondary Capture upon compression
-   *  @param jplsInterleaveMode        flag describing which interleave the JPEG-LS datastream should use
+   *  @param jplsInterleaveMode        flag describing which interleave the JPEG-2000 datastream should use
    */
   static void registerCodecs(
     OFBool jp2k_optionsEnabled = OFFalse,

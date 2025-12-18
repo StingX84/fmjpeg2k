@@ -46,7 +46,7 @@ void FMJPEG2KDecoderRegistration::registerCodecs(
     {
       decoder_ = new DJPEG2KDecoder();
       if (decoder_) DcmCodecList::registerCodec(decoder_, NULL, cp_);
-    
+
       registered_ = OFTrue;
     }
   }
@@ -56,13 +56,13 @@ void FMJPEG2KDecoderRegistration::cleanup()
 {
   if (registered_)
   {
-    DcmCodecList::deregisterCodec(decoder_);    
-    delete decoder_;    
+    DcmCodecList::deregisterCodec(decoder_);
+    delete decoder_;
     delete cp_;
     registered_ = OFFalse;
 #ifdef DEBUG
     // not needed but useful for debugging purposes
-    decoder_ = NULL;    
+    decoder_ = NULL;
     cp_      = NULL;
 #endif
   }
