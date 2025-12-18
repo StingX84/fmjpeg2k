@@ -105,6 +105,14 @@ OFBool DJPEG2KEncoderBase::canChangeCoding(
     return (oldRep.usesNativeFormat() && (newRepType == supportedTransferSyntax()));
 }
 
+#if PACKAGE_VERSION_NUMBER >= 370
+Uint16 DJPEG2KEncoderBase::decodedBitsAllocated(
+    Uint16 /* bitsAllocated */,
+    Uint16 /* bitsStored */) const
+{
+  return 0;
+}
+#endif
 
 OFCondition DJPEG2KEncoderBase::decode(
     const DcmRepresentationParameter * /* fromRepParam */,
@@ -1166,7 +1174,6 @@ OFCondition frametoimage(const Uint8 *framePointer, int planarConfiguration, OFS
     image->y0 = (OPJ_UINT32)parameters->image_offset_y0;
     image->x1 = image->x0 + (OPJ_UINT32)(width - 1)  * (OPJ_UINT32)subsampling_dx + 1;
     image->y1 = image->y0 + (OPJ_UINT32)(height - 1) * (OPJ_UINT32)subsampling_dy + 1;
-		cmptparm[i].bpp = bitsAllocated;
 
     const unsigned int pixelsCounts = unsigned(height) * unsigned(width);
     if(bytesAllocated == 1)

@@ -386,7 +386,7 @@ LICENSE_FILE_EVALUATE_COMMAND_LINE_OPTIONS
     DcmDataset *dataset = fileformat.getDataset();
 
     DcmXfer original_xfer(dataset->getOriginalXfer());
-    if (original_xfer.isEncapsulated())
+    if (original_xfer.usesEncapsulatedFormat())
     {
       OFLOG_INFO(fmjp2kLogger, "DICOM file is already compressed, converting to uncompressed transfer syntax first");
       if (EC_Normal != dataset->chooseRepresentation(EXS_LittleEndianExplicit, NULL))
