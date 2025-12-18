@@ -184,13 +184,14 @@ OFCondition DJPEG2KDecoderBase::decode(
   Sint32 currentFrame = 0;
   Uint32 currentItem = 1; // item 0 contains the offset table
   OFBool done = OFFalse;
+  bool isYUV = false;
 
   while (result.good() && !done)
   {
       FMJPEG2K_DEBUG("JPEG-2000 decoder processes frame " << (currentFrame+1));
 
       result = decodeFrame(pixSeq, djcp, dataset, currentFrame, currentItem, pixeldata8, frameSize,
-          imageFrames, imageColumns, imageRows, imageSamplesPerPixel, bytesPerSample);
+          imageFrames, imageColumns, imageRows, imageSamplesPerPixel, bytesPerSample, isYUV);
 
       if (result.good())
       {
@@ -219,6 +220,19 @@ OFCondition DJPEG2KDecoderBase::decode(
         // create new SOP instance UID
         result = DcmCodec::newInstance((DcmItem *)dataset, NULL, NULL, NULL);
     }
+  }
+
+  if (result.good())
+  {
+    OFString newPhotometricInterpretation;
+
+    if (imageSamplesPerPixel == 1 && imagePhotometricInterpretation != "MONOCHROME1" && imagePhotometricInterpretation != "MONOCHROME2")
+      newPhotometricInterpretation = "MONOCHROME2";
+    else if (imageSamplesPerPixel == 3)
+      newPhotometricInterpretation = isYUV ? "YBR_FULL" : "RGB";
+
+    if (!newPhotometricInterpretation.empty() && imagePhotometricInterpretation != newPhotometricInterpretation)
+      result = dataset->putAndInsertOFStringArray(DCM_PhotometricInterpretation, newPhotometricInterpretation);
   }
 
   return result;
@@ -298,18 +312,23 @@ OFCondition DJPEG2KDecoderBase::decodeFrame(
     result = determineStartFragment(frameNo, imageFrames, fromPixSeq, currentItem);
   }
 
+  bool isYUV = false;
   if (result.good())
   {
     // We got all the data we need from the dataset, let's start decoding
     FMJPEG2K_DEBUG("Starting to decode frame " << frameNo << " with fragment " << currentItem);
     result = decodeFrame(fromPixSeq, djcp, dataset, frameNo, currentItem, buffer, bufSize,
-        imageFrames, imageColumns, imageRows, imageSamplesPerPixel, bytesPerSample);
+        imageFrames, imageColumns, imageRows, imageSamplesPerPixel, bytesPerSample, isYUV);
   }
 
   if (result.good())
   {
     // retrieve color model from given dataset
     result = dataset->findAndGetOFString(DCM_PhotometricInterpretation, decompressedColorModel);
+    if (imageSamplesPerPixel == 1 && (result.bad() || (decompressedColorModel != "MONOCHROME1" && decompressedColorModel != "MONOCHROME2")))
+      decompressedColorModel = "MONOCHROME2";
+    else if (imageSamplesPerPixel == 3)
+      decompressedColorModel = isYUV ? "YBR_FULL" : "RGB";
   }
 
   return result;
@@ -351,7 +370,8 @@ OFCondition DJPEG2KDecoderBase::decodeFrame(
     Uint16 imageColumns,
     Uint16 imageRows,
     Uint16 imageSamplesPerPixel,
-    Uint16 bytesPerSample)
+    Uint16 bytesPerSample,
+    bool& isYUV)
 {
   DcmPixelItem *pixItem = NULL;
   Uint8 * jlsData = NULL;
@@ -532,6 +552,7 @@ OFCondition DJPEG2KDecoderBase::decodeFrame(
             copyRGBUint8ToRGBUint8Planar(image, OFreinterpret_cast(Uint8*, buffer), imageColumns, imageRows);
           }
         }
+        isYUV = (image->color_space == OPJ_CLRSPC_SYCC);
       }
 
       opj_stream_destroy(l_stream); l_stream = NULL;
@@ -621,6 +642,10 @@ OFCondition DJPEG2KDecoderBase::determineDecompressedColorModel(
   {
     // retrieve color model from given dataset
     result = dataset->findAndGetOFString(DCM_PhotometricInterpretation, decompressedColorModel);
+    if (result.good() && (decompressedColorModel == "YBR_RCT" || decompressedColorModel == "YBR_ICT"))
+    {
+      decompressedColorModel = "RGB";
+    }
   }
   return result;
 }
