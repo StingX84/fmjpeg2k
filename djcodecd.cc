@@ -38,7 +38,6 @@
 #include "dcmtk/dcmdata/dcswap.h"    /* for swapIfNecessary() */
 #include "dcmtk/dcmdata/dcuid.h"     /* for dcmGenerateUniqueIdentifer()*/
 #include "fmjpeg2k/djcparam.h"  /* for class DJP2KCodecParameter */
-#include "fmjpeg2k/djerror.h"                 /* for private class DJLSError */
 
 // JPEG-2000 library (OpenJPEG) includes
 #include "openjpeg.h"
@@ -468,8 +467,6 @@ OFCondition DJPEG2KDecoderBase::decodeFrame(
       if (image->x1 != imageColumns) result = EC_J2KImageDataMismatch;
       else if (image->y1 != imageRows) result = EC_J2KImageDataMismatch;
       else if (image->numcomps != imageSamplesPerPixel) result = EC_J2KImageDataMismatch;
-      //else if ((bytesPerSample == 1) && (image->bitspersample > 8)) result = EC_J2KImageDataMismatch;
-      //else if ((bytesPerSample == 2) && (image->bitspersample <= 8)) result = EC_J2KImageDataMismatch;
     }
 
     if (!result.good())
