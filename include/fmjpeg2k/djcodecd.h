@@ -4,7 +4,7 @@
  *  All rights reserved.  See COPYRIGHT file for details.
  *
  *  This software and supporting documentation were developed by
- * 
+ *
  *
  *
  *  Module:  fmjpeg2k

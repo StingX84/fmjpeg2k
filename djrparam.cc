@@ -45,7 +45,7 @@ FMJPEG2KRepresentationParameter::FMJPEG2KRepresentationParameter(const FMJPEG2KR
 
 FMJPEG2KRepresentationParameter::~FMJPEG2KRepresentationParameter()
 {
-}  
+}
 
 DcmRepresentationParameter *FMJPEG2KRepresentationParameter::clone() const
 {
@@ -68,9 +68,9 @@ OFBool FMJPEG2KRepresentationParameter::operator==(const DcmRepresentationParame
       const FMJPEG2KRepresentationParameter& argll = OFreinterpret_cast(const FMJPEG2KRepresentationParameter &, arg);
       if (losslessProcess_ && argll.losslessProcess_) return OFTrue;
       else if (losslessProcess_ != argll.losslessProcess_) return OFFalse;
-	  else if (nearlosslessPSNR_ != argll.nearlosslessPSNR_) return OFFalse;
+      else if (nearlosslessPSNR_ != argll.nearlosslessPSNR_) return OFFalse;
       return OFTrue;
-    }	
+    }
   }
   return OFFalse;
 }

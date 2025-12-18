@@ -31,7 +31,7 @@ class FMJPEG2K_EXPORT FMJPEG2KDecoderRegistration
 {
 public:
 
-  /** registers decoder for all supported JPEG-LS processes.
+  /** registers decoder for all supported JPEG-2000 processes.
    *  If already registered, call is ignored unless cleanup() has
    *  been performed before.
    *  @param uidcreation flag indicating whether or not
@@ -67,7 +67,7 @@ private:
   static DJPEG2KCodecParameter *cp_;
 
   /// pointer to decoder
-  static DJPEG2KDecoder *decoder_;  
+  static DJPEG2KDecoder *decoder_;
 };
 
 #endif

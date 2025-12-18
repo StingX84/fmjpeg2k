@@ -11,7 +11,7 @@
  *
  *  Author:  Ing-Long Eric Kuo
  *
- *  Purpose: enumerations, error constants and helper functions for dcmjpls
+ *  Purpose: enumerations, error constants and helper functions for fmjpeg2k
  *
  */
 
@@ -24,7 +24,7 @@
 #include "dldefine.h"
 
 
-#define FMJPEG2K_JPEG_VERSION_STRING "fmjpeg2koj - OpenJPEG (unmodified)"
+#define FMJPEG2K_JPEG_VERSION_STRING "fmjpeg2k - OpenJPEG"
 
 
 // global definitions for logging mechanism provided by the oflog module
@@ -130,22 +130,22 @@ extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KUnsupportedBitDepthForTransf
 /// error condition constant: The images' color transformation is not supported
 extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KUnsupportedColorTransform;
 
-/// error condition constant: Unsupported bit depth in JPEG-LS transfer syntax
+/// error condition constant: Unsupported bit depth in JPEG-2000 transfer syntax
 extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KUnsupportedBitDepth;
 
-/// error condition constant: Cannot compute number of fragments for JPEG-LS frame
+/// error condition constant: Cannot compute number of fragments for JPEG-2000 frame
 extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KCannotComputeNumberOfFragments;
 
-/// error condition constant: Image data mismatch between DICOM header and JPEG-LS bitstream
+/// error condition constant: Image data mismatch between DICOM header and JPEG-2000 bitstream
 extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KImageDataMismatch;
 
-/// error condition constant: Unsupported photometric interpretation for near-lossless JPEG-LS compression
+/// error condition constant: Unsupported photometric interpretation for near-lossless JPEG-2000 compression
 extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KUnsupportedPhotometricInterpretation;
 
-/// error condition constant: Unsupported pixel representation for near-lossless JPEG-LS compression
+/// error condition constant: Unsupported pixel representation for near-lossless JPEG-2000 compression
 extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KUnsupportedPixelRepresentation;
 
-/// error condition constant: Unsupported type of image for JPEG-LS compression
+/// error condition constant: Unsupported type of image for JPEG-2000 compression
 extern FMJPEG2K_EXPORT const OFConditionConst EC_J2KUnsupportedImageType;
 
 /// error condition constant: Trailing data after image

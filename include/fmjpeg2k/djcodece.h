@@ -167,7 +167,7 @@ public:
     const DcmCodecParameter *cp,
     DcmStack & objStack,
     OFBool& removeOldRep) const;
-  
+
   /** transcodes (re-compresses) the given compressed DICOM image and stores
    *  the result in the given toPixSeq element.
    *  @param fromRepType current transfer syntax of the compressed image
@@ -218,7 +218,7 @@ public:
     const DcmCodecParameter * cp,
     DcmStack & objStack,
     OFBool& removeOldRep) const;
-  
+
   /** checks if this codec is able to convert from the
    *  given current transfer syntax to the given new
    *  transfer syntax
@@ -359,7 +359,7 @@ private:
     Uint16 rows,
     Uint16 samplesPerPixel,
     Uint16 planarConfiguration,
-	OFBool pixelRepresentation,
+    OFBool pixelRepresentation,
     const OFString& photometricInterpretation,
     DcmPixelSequence *pixelSequence,
     DcmOffsetList &offsetList,
