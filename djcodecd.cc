@@ -66,22 +66,43 @@ OFBool DJPEG2KDecoderBase::canChangeCoding(
   // this codec only handles conversion from JPEG-2000 to uncompressed.
 
   DcmXfer newRep(newRepType);
-  if (newRep.isNotEncapsulated() &&
-     ((oldRepType == EXS_JPEG2000LosslessOnly)||(oldRepType == EXS_JPEG2000)||
-	  (oldRepType == EXS_JPEG2000MulticomponentLosslessOnly)||(oldRepType == EXS_JPEG2000Multicomponent)))
+  if (newRep.usesNativeFormat() && (
+      oldRepType == EXS_JPEG2000LosslessOnly
+      || oldRepType == EXS_JPEG2000
+      || oldRepType == EXS_JPEG2000MulticomponentLosslessOnly
+      || oldRepType == EXS_JPEG2000Multicomponent
+#if PACKAGE_VERSION_NUMBER >= 369
+      || oldRepType == EXS_HighThroughputJPEG2000LosslessOnly
+      || oldRepType == EXS_HighThroughputJPEG2000withRPCLOptionsLosslessOnly
+      || oldRepType == EXS_HighThroughputJPEG2000
+#endif
+    ))
+  {
      return OFTrue;
-  
+  }
+
   return OFFalse;
 }
 
+#if PACKAGE_VERSION_NUMBER >= 370
 Uint16 DJPEG2KDecoderBase::decodedBitsAllocated(
-    Uint16 bitsAllocated,
+    Uint16 /* bitsAllocated */,
     Uint16 bitsStored) const
 {
-    if ((bitsStored < 1) || (bitsStored > 16)) return 0;
+  // this codec does not support images with less than 2 bits per sample
+  if (bitsStored < 2) return 0;
 
-    return bitsAllocated;
+  // for images with 2..8 bits per sample, BitsAllocated will be 8
+  if (bitsStored <= 8) return 8;
+
+  // for images with 9..16 bits per sample, BitsAllocated will be 16
+  if (bitsStored <= 16) return 16;
+
+  // this codec does not support images with more than 16 bits per sample
+  return 0;
 }
+#endif
+
 
 OFCondition DJPEG2KDecoderBase::decode(
     const DcmRepresentationParameter * /* fromRepParam */,
@@ -394,10 +415,6 @@ OFCondition DJPEG2KDecoderBase::decodeFrame(
       }
     } /* while */
   }
-
-  // sanity check
-  if (compressedSize == 0)
-      result = EC_CorruptedData;
 
   // get the compressed data
   if (result.good())
