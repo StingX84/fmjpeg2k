@@ -135,6 +135,8 @@ LICENSE_FILE_DECLARE_COMMAND_LINE_OPTIONS
     cmd.addSubGroup("JPEG-2000 process:");
       cmd.addOption("--encode-lossless",        "+el",    "encode JPEG-2000 lossless (default)");
       cmd.addOption("--encode-nearlossless",    "+en",    "encode JPEG-2000 TS near-lossless");
+      cmd.addOption("--encode-lossless-part2",  "+el2",   "encode JPEG-2000 lossless with ICT/RCT (process 2)");
+      cmd.addOption("--encode-nearlossless-part2", "+en2", "encode JPEG-2000 TS near-lossless with ICT/RCT (process 2)");
 
     cmd.addSubGroup("lossless compression:");
       cmd.addOption("--prefer-raw",             "+pr",    "prefer raw encoder mode (default)");
@@ -253,12 +255,24 @@ LICENSE_FILE_EVALUATE_COMMAND_LINE_OPTIONS
         opt_useLosslessProcess = OFFalse;
         opt_nearlossless_psnr = 0; // 0 for automatic
       }
+      if (cmd.findOption("--encode-lossless-part2"))
+      {
+        opt_oxfer = EXS_JPEG2000MulticomponentLosslessOnly;
+        opt_useLosslessProcess = OFTrue;
+      }
+      if (cmd.findOption("--encode-nearlossless-part2"))
+      {
+        opt_oxfer = EXS_JPEG2000Multicomponent;
+        opt_useLosslessProcess = OFFalse;
+        opt_nearlossless_psnr = 0; // 0 for automatic
+      }
       cmd.endOptionBlock();
 
       // JPEG-2000 psnr options
       if (cmd.findOption("--PSNR"))
       {
         app.checkConflict("--PSNR", "--encode-lossless", opt_oxfer == EXS_JPEG2000LosslessOnly);
+        app.checkConflict("--PSNR", "--encode-lossless-part2", opt_oxfer == EXS_JPEG2000MulticomponentLosslessOnly);
         app.checkValue(cmd.getValueAndCheckMin(opt_nearlossless_psnr, 0));
       }
 

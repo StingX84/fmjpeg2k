@@ -78,9 +78,19 @@ E_TransferSyntax DJPEG2KLosslessEncoder::supportedTransferSyntax() const
     return EXS_JPEG2000LosslessOnly;
 }
 
+E_TransferSyntax DJPEG2KLosslessEncoderPart2::supportedTransferSyntax() const
+{
+    return EXS_JPEG2000MulticomponentLosslessOnly;
+}
+
 E_TransferSyntax DJPEG2KNearLosslessEncoder::supportedTransferSyntax() const
 {
     return EXS_JPEG2000;
+}
+
+E_TransferSyntax DJPEG2KNearLosslessEncoderPart2::supportedTransferSyntax() const
+{
+    return EXS_JPEG2000Multicomponent;
 }
 
 // --------------------------------------------------------------------------
@@ -208,7 +218,7 @@ OFCondition DJPEG2KEncoderBase::encode(
     if (!djrp)
         djrp = &defRep;
 
-	if (supportedTransferSyntax() == EXS_JPEG2000LosslessOnly || djrp->useLosslessProcess())
+    if (supportedTransferSyntax() == EXS_JPEG2000MulticomponentLosslessOnly || supportedTransferSyntax() == EXS_JPEG2000LosslessOnly || djrp->useLosslessProcess())
     {
         if (djcp->cookedEncodingPreferred())
             result = RenderedEncode(pixelData, length, dataset, djrp, pixSeq, djcp, compressionRatio);

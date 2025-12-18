@@ -445,9 +445,31 @@ class FMJPEG2K_EXPORT DJPEG2KLosslessEncoder : public DJPEG2KEncoderBase
   virtual E_TransferSyntax supportedTransferSyntax() const;
 };
 
+/** codec class for JPEG-2000 lossless only TS encoding with RCT (process 2)
+ */
+class FMJPEG2K_EXPORT DJPEG2KLosslessEncoderPart2 : public DJPEG2KEncoderBase
+{
+  /** returns the transfer syntax that this particular codec
+   *  is able to encode
+   *  @return supported transfer syntax
+   */
+  virtual E_TransferSyntax supportedTransferSyntax() const;
+};
+
 /** codec class for JPEG-2000 lossy and lossless TS encoding
  */
 class FMJPEG2K_EXPORT DJPEG2KNearLosslessEncoder : public DJPEG2KEncoderBase
+{
+  /** returns the transfer syntax that this particular codec
+   *  is able to encode
+   *  @return supported transfer syntax
+   */
+  virtual E_TransferSyntax supportedTransferSyntax() const;
+};
+
+/** codec class for JPEG-2000 lossy and lossless TS encoding with RCT (process 2)
+ */
+class FMJPEG2K_EXPORT DJPEG2KNearLosslessEncoderPart2 : public DJPEG2KEncoderBase
 {
   /** returns the transfer syntax that this particular codec
    *  is able to encode

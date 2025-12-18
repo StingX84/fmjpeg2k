@@ -33,7 +33,9 @@
 OFBool FMJPEG2KEncoderRegistration::registered_                             = OFFalse;
 DJPEG2KCodecParameter *FMJPEG2KEncoderRegistration::cp_                        = NULL;
 DJPEG2KLosslessEncoder *FMJPEG2KEncoderRegistration::losslessencoder_          = NULL;
+DJPEG2KLosslessEncoderPart2 *FMJPEG2KEncoderRegistration::losslessencoder2_    = NULL;
 DJPEG2KNearLosslessEncoder *FMJPEG2KEncoderRegistration::nearlosslessencoder_  = NULL;
+DJPEG2KNearLosslessEncoderPart2 *FMJPEG2KEncoderRegistration::nearlosslessencoder2_ = NULL;
 
 
 void FMJPEG2KEncoderRegistration::registerCodecs(
@@ -56,8 +58,12 @@ void FMJPEG2KEncoderRegistration::registerCodecs(
         {
             losslessencoder_ = new DJPEG2KLosslessEncoder();
             if (losslessencoder_) DcmCodecList::registerCodec(losslessencoder_, NULL, cp_);
+            losslessencoder2_ = new DJPEG2KLosslessEncoderPart2();
+            if (losslessencoder2_) DcmCodecList::registerCodec(losslessencoder2_, NULL, cp_);
             nearlosslessencoder_ = new DJPEG2KNearLosslessEncoder();
             if (nearlosslessencoder_) DcmCodecList::registerCodec(nearlosslessencoder_, NULL, cp_);
+            nearlosslessencoder2_ = new DJPEG2KNearLosslessEncoderPart2();
+            if (nearlosslessencoder2_) DcmCodecList::registerCodec(nearlosslessencoder2_, NULL, cp_);
             registered_ = OFTrue;
         }
     }
@@ -68,15 +74,21 @@ void FMJPEG2KEncoderRegistration::cleanup()
     if (registered_)
     {
         DcmCodecList::deregisterCodec(losslessencoder_);
+        DcmCodecList::deregisterCodec(losslessencoder2_);
         DcmCodecList::deregisterCodec(nearlosslessencoder_);
+        DcmCodecList::deregisterCodec(nearlosslessencoder2_);
         delete losslessencoder_;
+        delete losslessencoder2_;
         delete nearlosslessencoder_;
+        delete nearlosslessencoder2_;
         delete cp_;
         registered_ = OFFalse;
 #ifdef DEBUG
         // not needed but useful for debugging purposes
         losslessencoder_ = NULL;
+        losslessencoder2_ = NULL;
         nearlosslessencoder_ = NULL;
+        nearlosslessencoder2_ = NULL;
         cp_     = NULL;
 #endif
     }
