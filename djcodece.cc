@@ -258,6 +258,17 @@ OFCondition DJPEG2KEncoderBase::encode(
         if (result.good() && djcp->getConvertToSC()) result = DcmCodec::convertToSecondaryCapture(dataset);
     }
 
+    // Alter photometric representation if needed for color images
+    Uint16 samplesPerPixel = 0;
+    if (result.good()) result = dataset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
+    if (result.good() && samplesPerPixel >= 3)
+    {
+        if (supportedTransferSyntax() == EXS_JPEG2000MulticomponentLosslessOnly)
+            result = dataset->putAndInsertString(DCM_PhotometricInterpretation, "YBR_RCT");
+        else if (supportedTransferSyntax() == EXS_JPEG2000Multicomponent)
+            result = dataset->putAndInsertString(DCM_PhotometricInterpretation, "YBR_ICT");
+    }
+
 
     return result;
 }

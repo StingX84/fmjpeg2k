@@ -290,6 +290,8 @@ private:
    *  @param imageRows number of rows for each frame
    *  @param imageSamplesPerPixel number of samples per pixel
    *  @param bytesPerSample number of bytes per sample
+   *  @param isYUV upon successful return, indicates whether the compressed
+   *    data was encoded in YUV color space (only possible for 3 samples/pixel)
    *  @return EC_Normal if successful, an error code otherwise.
    */
   static OFCondition decodeFrame(
@@ -304,7 +306,8 @@ private:
     Uint16 imageColumns,
     Uint16 imageRows,
     Uint16 imageSamplesPerPixel,
-    Uint16 bytesPerSample);
+    Uint16 bytesPerSample,
+    bool& isYUV);
 
   /** determines if a given image requires color-by-plane planar configuration
    *  depending on SOP Class UID (DICOM IOD) and photometric interpretation.
