@@ -52,7 +52,6 @@
 // dcmjpls includes
 #include "fmjpeg2k/djcparam.h"  /* for class DJP2KCodecParameter */
 #include "fmjpeg2k/djrparam.h"  /* for class D2RepresentationParameter */
-#include "fmjpeg2k/djerror.h"                 /* for private class DJLSError */
 
 // dcmimgle includes
 #include "dcmtk/dcmimgle/dcmimage.h"  /* for class DicomImage */
@@ -597,8 +596,6 @@ OFCondition DJPEG2KEncoderBase::losslessRawEncode(
 }
 
 OFCondition frametoimage(const Uint8 *framePointer, int planarConfiguration, OFString photometricInterpretation, int samplesPerPixel, int width, int height, int bitsAllocated, OFBool isSigned, opj_cparameters_t *parameters, opj_image_t **ret_image);
-opj_image_t *frameToImage2(const Uint8 *framePointer, int width, int height, opj_cparameters_t *parameters);
-opj_image_t *frameToImage3(const Uint8 *framePointer, int width, int height, opj_cparameters_t *parameters);
 
 OFCondition DJPEG2KEncoderBase::compressRawFrame(
     const Uint8 *framePointer,
@@ -1270,94 +1267,3 @@ OFCondition frametoimage(const Uint8 *framePointer, int planarConfiguration, OFS
     *ret_image = image;
     return EC_Normal;
 }
-/*
-opj_image_t *frameToImage2(const Uint8 *framePointer, int width, int height, opj_cparameters_t *parameters)
-{
-	opj_image_t *image = NULL;
-	opj_image_cmptparm_t cmptparm[1];
-	memset(&cmptparm[0], 0, 1 * sizeof(opj_image_cmptparm_t));
-
-	int subsampling_dx = parameters->subsampling_dx;
-	int subsampling_dy = parameters->subsampling_dy;
-
-	for (int i = 0; i < 1; i++)
-	{
-		cmptparm[i].prec = 16;
-		cmptparm[i].bpp = 16;
-		cmptparm[i].sgnd = 0;
-		cmptparm[i].dx = (OPJ_UINT32)subsampling_dx;
-		cmptparm[i].dy = (OPJ_UINT32)subsampling_dy;
-		cmptparm[i].w = width;
-		cmptparm[i].h = height;
-	}
-
-	image = opj_image_create(1, &cmptparm[0], OPJ_CLRSPC_SRGB);
-
-	// set image offset and reference grid 
-	image->x0 = (OPJ_UINT32)parameters->image_offset_x0;
-	image->y0 = (OPJ_UINT32)parameters->image_offset_y0;
-	image->x1 =	!image->x0 ? (OPJ_UINT32)(width - 1)  * (OPJ_UINT32)subsampling_dx + 1 : image->x0 + (OPJ_UINT32)(width - 1)  * (OPJ_UINT32)subsampling_dx + 1;
-	image->y1 =	!image->y0 ? (OPJ_UINT32)(height - 1) * (OPJ_UINT32)subsampling_dy + 1 : image->y0 + (OPJ_UINT32)(height - 1) * (OPJ_UINT32)subsampling_dy + 1;
-
-	Uint16 *ptr = (Uint16 *)framePointer;	
-	int index = 0;
-	for (int y = 0; y < height; y++)
-	{
-		for (int x = 0; x < width; x++)
-		{			
-			image->comps[0].data[index] = *ptr;            
-			index++;
-			ptr++;
-		}
-	}
-	return image;
-}
-
-opj_image_t *frameToImage3(const Uint8 *framePointer, int width, int height, opj_cparameters_t *parameters)
-{
-	opj_image_t *image = NULL;
-	opj_image_cmptparm_t cmptparm[3];
-	memset(&cmptparm[0], 0, 3 * sizeof(opj_image_cmptparm_t));
-
-	int subsampling_dx = parameters->subsampling_dx;
-	int subsampling_dy = parameters->subsampling_dy;
-
-	for (int i = 0; i < 3; i++)
-	{
-		cmptparm[i].prec = 8;
-		cmptparm[i].bpp = 8;
-		cmptparm[i].sgnd = 0;
-		cmptparm[i].dx = (OPJ_UINT32)subsampling_dx;
-		cmptparm[i].dy = (OPJ_UINT32)subsampling_dy;
-		cmptparm[i].w = width;
-		cmptparm[i].h = height;
-	}
-
-	image = opj_image_create(3, &cmptparm[0], OPJ_CLRSPC_SRGB);
-
-	if(image != NULL)
-	{
-		// set image offset and reference grid
-		image->x0 = (OPJ_UINT32)parameters->image_offset_x0;
-		image->y0 = (OPJ_UINT32)parameters->image_offset_y0;
-		image->x1 =	!image->x0 ? (OPJ_UINT32)(width - 1)  * (OPJ_UINT32)subsampling_dx + 1 : image->x0 + (OPJ_UINT32)(width - 1)  * (OPJ_UINT32)subsampling_dx + 1;
-		image->y1 =	!image->y0 ? (OPJ_UINT32)(height - 1) * (OPJ_UINT32)subsampling_dy + 1 : image->y0 + (OPJ_UINT32)(height - 1) * (OPJ_UINT32)subsampling_dy + 1;
-
-		Uint8 *ptr = (Uint8 *)framePointer;	
-		int index = 0;
-		for (int y = 0; y < height; y++)
-		{
-			for (int x = 0; x < width; x++)
-			{			
-				image->comps[0].data[index] = *ptr;
-				image->comps[1].data[index] = *ptr;
-				image->comps[2].data[index] = *ptr;
-				index++;
-				ptr++;
-			}
-		}
-	}
-	return image;
-}
-
-*/
