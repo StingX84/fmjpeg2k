@@ -1,6 +1,4 @@
-build-Debug/
-build-Release/
-Debug/
-Release/
-dcmtk/
-openjpeg/
+/.venv/
+/.vscode/
+build/
+CMakeUserPresets.json
