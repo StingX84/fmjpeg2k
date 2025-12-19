@@ -24,10 +24,24 @@
 #include "dcmtk/ofstd/ofdefine.h"
 
 
-#ifdef fmjpeg2k_EXPORTS
-#define FMJPEG2K_EXPORT DCMTK_DECL_EXPORT
+#ifdef fmjpeg2k_SHARED
+#  ifdef fmjpeg2k_EXPORTS /* BUILING library */
+#    ifdef _WIN32
+#      define FMJPEG2K_EXPORT __declspec(dllexport)
+#    elif __GNUC__
+#      define FMJPEG2K_EXPORT __attribute__ ((visibility("default")))
+#    else
+#      define FMJPEG2K_EXPORT
+#    endif
+#  else /* LINKING library */
+#    ifdef _WIN32
+#      define FMJPEG2K_EXPORT __declspec(dllimport)
+#    else
+#      define FMJPEG2K_EXPORT
+#    endif
+#  endif
 #else
-#define FMJPEG2K_EXPORT DCMTK_DECL_IMPORT
+#  define FMJPEG2K_EXPORT
 #endif
 
 

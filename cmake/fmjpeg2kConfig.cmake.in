@@ -13,14 +13,16 @@
 set(FMJPEG2K_LIBRARIES fmjpeg2k)
 
 # The configuration options.
-set(fmjpeg2k_BUILD_SHARED_LIBS "@BUILD_SHARED_LIBS@")
+set(fmjpeg2k_BUILD_SHARED_LIBS "@fmjpeg2k_BUILD_SHARED_LIBS@")
+set(BUILD_SHARED_LIBS "@BUILD_SHARED_LIBS@")
+set(fmjpeg2k_BUILD_APPS "@fmjpeg2k_BUILD_APPS@")
 
 get_filename_component(SELF_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 if(EXISTS ${SELF_DIR}/fmjpeg2kTargets.cmake)
   # This is an install tree
   include(${SELF_DIR}/fmjpeg2kTargets.cmake)
   get_filename_component(fmjpeg2k_INCLUDE_ROOT "${SELF_DIR}/../../../include" ABSOLUTE)
-  set(FMJPEG2K_INCLUDE_DIRS ${fmjpeg2k_INCLUDE_ROOT})  
+  set(FMJPEG2K_INCLUDE_DIRS ${fmjpeg2k_INCLUDE_ROOT})
 else()
   if(EXISTS ${SELF_DIR}/fmjpeg2kExports.cmake)
     # This is a build tree

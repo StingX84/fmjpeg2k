@@ -1,4 +1,4 @@
-name: CMake
+name: Conan Build and Test
 
 on:
   push:
@@ -12,14 +12,28 @@ env:
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2    
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Build
-      # Build your program with the given configuration
-      run: ./build.sh ${{env.BUILD_TYPE}}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Recommended Python version
+
+      - name: Setup Conan client
+        uses: conan-io/setup-conan@v2
+        with:
+          conan-version: '2.x' # Use the latest Conan 2.x version
+          cache-conan-packages: true # Enable caching for speed
+
+      - name: Create default Conan profile (if not cached)
+        # This step is conditional, only runs if the cache was a miss
+        if: steps.setup-conan-client.outputs.cache-hit != 'true'
+        run: conan profile detect
+
+      - name: Install dependencies and build project
+        run: conan create . --build=missing --update
+
