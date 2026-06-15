@@ -918,7 +918,7 @@ OFCondition DJPEG2KEncoderBase::compressRenderedFrame(
 
     // This is the buffer with the uncompressed pixel data
     Uint8 *buffer;
-    size_t buffer_size;
+    unsigned long buffer_size;
 
     const Uint32 framesize = dimage->getWidth() * dimage->getHeight();
     switch(dinter->getRepresentation())
